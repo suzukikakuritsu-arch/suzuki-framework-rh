@@ -3,15 +3,13 @@ import SuzukiRH.Basic
 
 namespace SuzukiRH
 
-open Complex
-
 /-- 共役対称性 -/
 axiom zeta_conj :
-  ∀ s : ℂ, zeta (Complex.conj s) = Complex.conj (zeta s)
+  ∀ s : ℂ, zeta (conj s) = conj (zeta s)
 
 /-- 零点の共役閉性 -/
 theorem zero_conj_closed :
-  ∀ s : ℂ, zeta s = 0 → zeta (Complex.conj s) = 0 :=
+  ∀ s : ℂ, zeta s = 0 → zeta (conj s) = 0 :=
 by
   intro s hs
   have h := zeta_conj s
