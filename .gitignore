@@ -1,0 +1,4 @@
+# .gitignore (ルートに作成)
+.lake/
+build/
+lake-manifest.json
