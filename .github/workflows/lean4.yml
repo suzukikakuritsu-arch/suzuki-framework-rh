@@ -1,8 +1,8 @@
-name: Suzuki Method Verification
+name: Lean 4 CI
 
 on:
   push:
-    branches: [ "main" ]
+  pull_request:
 
 jobs:
   build:
@@ -12,15 +12,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # curlを使わず、公式のアクションでLeanをセットアップ
-      - name: Install Lean 4 (Official Action)
+      - name: Install Lean toolchain
         uses: leanprover/lean-action@v1
-        with:
-          # ここでビルドまで一気に行います
-          test: false 
 
-      - name: Suzuki Method Build
-        run: |
-          # 公式アクションによってPATHは既に通っています
-          lake update
-          lake build SuzukiRH
+      - name: Update dependencies
+        run: lake update
+
+      - name: Build SuzukiRH
+        run: lake build SuzukiRH
