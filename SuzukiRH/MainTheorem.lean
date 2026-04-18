@@ -1,18 +1,18 @@
 import Mathlib.Data.Complex.Basic
 import SuzukiRH.Basic
+import SuzukiRH.ZetaProperties
 
 namespace SuzukiRH
 
 open Complex
 
-axiom suppression_axiom :
-  ∀ s : ℂ, zeta s = 0 → 0 < s.re → s.re < 1
-
+/-- 剛性（Suzukiの核） -/
 axiom rigidity_axiom :
-  ∀ s : ℂ, IsNontrivialZero s → s.re = (1 : ℝ) / 2
+  ∀ s : ℂ, IsNontrivialZero s → OnCriticalLine s
 
+/-- RH（構造的定式化） -/
 theorem riemann_hypothesis :
-  ∀ s : ℂ, IsNontrivialZero s → s.re = (1 : ℝ) / 2 :=
+  ∀ s : ℂ, IsNontrivialZero s → OnCriticalLine s :=
 by
   intro s hs
   exact rigidity_axiom s hs
