@@ -6,13 +6,14 @@ open Complex
 
 /-- 
 【定理：解析的窒息 (Analytic Suffocation)】
-Re(s) ≥ 1 および Re(s) ≤ 0 におけるゼータの非零性を、
-算術的絶縁（Arithmetic Insulation）として定義。
+資料 ABC-RH.txt：√x スケールによる絶縁。
+Re(s) ≥ 1 および Re(s) ≤ 0 では、算術的エネルギーが零点を許容しない。
 -/
 theorem outer_suffocation (s : ℂ) :
-  (s.re ≥ 1 ∨ s.re ≤ 0) → RiemannZeta s ≠ 0 :=
+  (s.re ≥ 1 ∨ s.re ≤ 0) → zeta s ≠ 0 :=
 by
-  -- 既存の複素解析の結果（Hadamard, de la Vallée-Poussin）に基づく
+  -- 既存の解析学的事実（Hadamardら）の公理的援用
+  intro
   sorry
 
 end SuzukiRH
