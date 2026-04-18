@@ -1,7 +1,7 @@
 import Lake
 open Lake DSL
 
-package «suzuki-rh-framework» where
+package «suzuki-framework-rh» where
   -- プロジェクトの基本設定
   leanOptions := #[
     ⟨`pp.unicode.fun, true⟩, -- Unicode表示を有効化
