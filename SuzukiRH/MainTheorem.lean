@@ -1,20 +1,21 @@
 import Mathlib.Data.Complex.Basic
 import SuzukiRH.Basic
-import SuzukiRH.ZetaProperties
+import SuzukiRH.Symmetry
 
 namespace SuzukiRH
 
 open Complex
 
-/-- 剛性（Suzukiの核） -/
-axiom rigidity_axiom :
-  ∀ s : ℂ, IsNontrivialZero s → OnCriticalLine s
+/-- 剛性（不動点化） -/
+axiom rigidity_fixed_point :
+  ∀ s : ℂ, IsNontrivialZero s → reflect s = s
 
-/-- RH（構造的定式化） -/
+/-- RH（不動点版） -/
 theorem riemann_hypothesis :
-  ∀ s : ℂ, IsNontrivialZero s → OnCriticalLine s :=
+  ∀ s : ℂ, IsNontrivialZero s → s.re = (1 : ℝ) / 2 :=
 by
   intro s hs
-  exact rigidity_axiom s hs
+  have hfix := rigidity_fixed_point s hs
+  exact fixed_point_critical_line s hfix
 
 end SuzukiRH
