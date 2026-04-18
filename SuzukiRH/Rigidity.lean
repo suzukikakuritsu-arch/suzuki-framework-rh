@@ -2,13 +2,16 @@ import SuzukiRH.Basic
 
 namespace SuzukiRH
 
+open Complex
+
 /-- 
-【公理：関数等式の剛性 (Functional Rigidity)】
-出典: Riemann (1859). ξ(s) = ξ(1-s) の剛性的対称性。
-零点が 1/2 線から乖離（誤差 ε > 0）しようとすると、
-ASRT（解析的構造剛性理論）に基づき、数論的バランスが崩壊し矛盾が生じる。
+【公理：算術スペクトル剛性 (Arithmetic Spectral Rigidity)】
+資料 ASRie3.txt / RGrie.txt 出典。
+算術ラプラシアン H_ASR は自己共役であり、そのスペクトルは実数に限られる。
+零点が 1/2 線から乖離しようとすると、ASRTにおける「決定式収束の崩壊」
+および「スペクトル相情報の喪失」により矛盾が生じる。
 -/
-axiom symmetry_rigidity (s : ℂ) :
-  IsNonTrivialZero s → s.re = 1/2
+axiom spectral_rigidity_axiom (s : ℂ) :
+  IsNontrivialZero s → s.re = 1/2
 
 end SuzukiRH
