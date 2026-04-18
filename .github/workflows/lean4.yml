@@ -1,29 +1,20 @@
-name: Lean 4 CI
-
-on:
-  push:
-  pull_request:
+name: Suzuki Method Verification
+on: [push]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Install elan
-        run: |
-          curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y
-          echo "$HOME/.elan/bin" >> $GITHUB_PATH
-
-      - name: Clean cache (first run safety)
-        run: rm -rf .lake
-
-      - name: lake update (generate manifest)
-        run: lake update
-
-      - name: Setup Lean cache
+      - name: Install Lean 4
         uses: leanprover/lean-action@v1
+        with:
+          # ここで update を行わない設定
+          build-args: "" 
 
-      - name: Build
-        run: lake build SuzukiRH
+      - name: Final Build
+        run: |
+          # update をスキップし、現在の lakefile.lean に基づきビルド
+          lake build SuzukiRH
