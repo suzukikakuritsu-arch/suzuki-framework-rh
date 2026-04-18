@@ -1,12 +1,20 @@
-import Mathlib.Analysis.Complex.Basic
+import Mathlib.Analysis.SpecialFunctions.Zeta
+import Mathlib.Data.Complex.Basic
 
 namespace SuzukiRH
+
 open Complex
 
--- 資料 ASRie3.txt に基づくゼータの定義
-axiom zeta : ℂ → ℂ
+/-
+  mathlib のリーマンゼータ関数
+-/
+noncomputable def zeta := Complex.riemannZeta
 
+/-
+  非自明零点（古典定義に寄せる）
+  ※ trivial zeros (-2, -4, ...) を排除するため Re(s) > 0 を採用
+-/
 def IsNontrivialZero (s : ℂ) : Prop :=
-  zeta s = 0 ∧ (0 < s.re ∧ s.re < 1)
+  zeta s = 0 ∧ 0 < s.re ∧ s.re < 1
 
 end SuzukiRH
