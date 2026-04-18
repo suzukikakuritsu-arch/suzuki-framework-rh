@@ -3,8 +3,6 @@ name: Suzuki Method Verification
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
 
 jobs:
   build:
@@ -14,21 +12,19 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Install elan (Lean 4 Version Manager)
+    - name: Setup and Build Suzuki Framework
       run: |
-        set -e
+        # 1. elanのインストール（対話なし）
         curl https://elan.lean-lang.org/elanself-update -sSf | sh -s -- -y --default-toolchain none
-        # elanのバイナリへのパスをGitHubのPATHに追加
-        echo "$HOME/.elan/bin" >> $GITHUB_PATH
-
-    - name: Lake Update and Build
-      run: |
-        # 明示的にパスを指定して実行することで "command not found" を防ぐ
+        
+        # 2. パスをこの実行セッションに強制反映
+        source $HOME/.elan/env
         export PATH="$HOME/.elan/bin:$PATH"
         
-        # ツールチェーンの確認
+        # 3. 動作確認
         elan --version
         
-        # プロジェクトのビルド
+        # 4. ビルド実行
+        # ルートに lakefile.lean があることを前提に動きます
         lake update
         lake build SuzukiRH
