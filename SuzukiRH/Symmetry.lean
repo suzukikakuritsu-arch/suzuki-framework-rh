@@ -5,11 +5,9 @@ import SuzukiRH.FunctionalEquation
 
 namespace SuzukiRH
 
-open Complex
-
 theorem zero_full_symmetry :
   ∀ s : ℂ, zeta s = 0 →
-    zeta (Complex.conj s) = 0 ∧
+    zeta (conj s) = 0 ∧
     zeta (1 - s) = 0 :=
 by
   intro s hs
