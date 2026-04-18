@@ -1,12 +1,13 @@
 import Lake
 open Lake DSL
 
-package "suzuki-rh" where
-  leanOptions := #[⟨`pp.unicode.fun, true⟩, ⟨`autoImplicit, false⟩]
+package «suzuki-rh» where
+  -- ルートを src として扱う（SuzukiRH ディレクトリを直接読む）
+  srcDir := "."
 
 require mathlib from git
   "https://github.com/leanprover-community/mathlib4.git"
 
-@[default_target]
 lean_lib SuzukiRH where
+  -- SuzukiRH/ をトップレベルモジュールとして扱う
   srcDir := "."
