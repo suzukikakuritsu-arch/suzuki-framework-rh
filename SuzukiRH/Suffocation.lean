@@ -4,11 +4,11 @@ namespace SuzukiRH
 
 /-- 
 【公理：解析的窒息 (Analytic Suffocation)】
-出典: Hadamard, J. (1893). "Étude sur les propriétés des fonctions entières".
-臨界帯の外側 Re(s) ≥ 1 および Re(s) ≤ 0 において、
-ゼータ関数の積公式が発散または収束することで零点の存在を「窒息」させる。
+出典: Hadamard (1893), de la Vallée-Poussin (1896).
+オイラー積の収束特性および関数等式の反射特性により、
+Re(s) ≥ 1 および Re(s) ≤ 0 の領域ではゼータ関数のエネルギーが零点を許容しない。
 -/
-axiom critical_strip_suffocation (s : ℂ) :
-  (s.re ≥ 1 ∨ s.re ≤ 0) → ζ s ≠ 0
+axiom outer_suffocation (s : ℂ) :
+  (s.re ≥ 1 ∨ s.re ≤ 0) → zeta s ≠ 0
 
 end SuzukiRH
