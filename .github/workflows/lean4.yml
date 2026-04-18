@@ -9,23 +9,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Setup and Build Suzuki Framework
-      run: |
-        # 1. 最新の elan インストーラーを GitHub から直接取得 (404回避)
-        curl -sSfL https://github.com/leanprover/elan/releases/latest/download/elan-x86_64-unknown-linux-gnu.tar.gz | tar xz
-        ./elan-init -y --default-toolchain none
-        
-        # 2. パスを強制反映
-        export PATH="$HOME/.elan/bin:$PATH"
-        source "$HOME/.elan/env" || true
-        
-        # 3. 動作確認
-        elan --version
-        
-        # 4. ビルド実行
-        # ルートに lakefile.lean があることを確認してください
-        lake update
-        lake build SuzukiRH
+      # curlを使わず、公式のアクションでLeanをセットアップ
+      - name: Install Lean 4 (Official Action)
+        uses: leanprover/lean-action@v1
+        with:
+          # ここでビルドまで一気に行います
+          test: false 
+
+      - name: Suzuki Method Build
+        run: |
+          # 公式アクションによってPATHは既に通っています
+          lake update
+          lake build SuzukiRH
