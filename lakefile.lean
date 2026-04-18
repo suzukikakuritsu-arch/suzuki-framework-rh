@@ -1,11 +1,11 @@
 import Lake
 open Lake DSL
 
-package "suzuki-rh" where
-  -- 余計なオプションを削り、基礎に徹する
-  leanOptions := #[⟨`pp.unicode.fun, true⟩]
+package «suzuki-rh» where
+  srcDir := "."
 
-@[default_target]
+require mathlib from git
+  "https://github.com/leanprover-community/mathlib4.git" @ "v4.11.0"
+
 lean_lib SuzukiRH where
-  -- SuzukiRHフォルダの中を見に行く設定
   srcDir := "."
