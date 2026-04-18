@@ -1,9 +1,7 @@
-name: Suzuki Method Verification (Lean 4)
+name: Suzuki Method Verification
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
     branches: [ "main" ]
 
 jobs:
@@ -14,18 +12,15 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Install elan (Lean 4 version manager)
+    - name: Install elan
       run: |
         curl https://elan.lean-lang.org/elanself-update -sSf | sh -s -- -y --default-toolchain none
+        # ここで elan のバイナリパスを GitHub の環境変数に追加
         echo "$HOME/.elan/bin" >> $GITHUB_PATH
 
-    - name: Build SuzukiRH Library
+    - name: Build and Verify
       run: |
+        # パスが反映されるように一度シェルを介して実行
+        source $HOME/.elan/env
         lake update
         lake build SuzukiRH
-
-    - name: Verify Proof Integrity
-      run: |
-        # エラーがあればここでビルドが止まり、赤点灯します。
-        # 正常に終了すれば、GitHub上に「緑のチェックマーク」がつきます。
-        echo "Suzuki Method: Rigidity & Suffocation confirmed."
