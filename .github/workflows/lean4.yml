@@ -12,11 +12,20 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install Lean toolchain
-        uses: leanprover/lean-action@v1
+      # 先に elan（Lean環境）だけ入れる
+      - name: Install Lean (elan)
+        run: |
+          curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y
+          echo "$HOME/.elan/bin" >> $GITHUB_PATH
 
-      - name: Update dependencies
+      # ここが重要：manifest を生成
+      - name: Generate lake-manifest.json
         run: lake update
 
+      # その後で lean-action
+      - name: Configure Lean cache
+        uses: leanprover/lean-action@v1
+
+      # ビルド
       - name: Build SuzukiRH
         run: lake build SuzukiRH
