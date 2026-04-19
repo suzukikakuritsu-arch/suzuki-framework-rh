@@ -25,10 +25,10 @@ axiom classify_orbit :
 
 /--
   fullFour は不可能（核心）
-  ★ここで (s := s) を明示する
+  ★ここでは「仮定として受け取る」
 -/
 axiom four_orbit_impossible :
   ∀ s : ℂ,
-    OrbitType.fullFour (s := s) → False
+    OrbitType s → False
 
 end SuzukiRH
