@@ -9,12 +9,12 @@ namespace SuzukiRH
 open Set
 
 /--
-  4点軌道は必ず3種類の型に分解できる
+  軌道の型
 -/
-inductive OrbitType (s : ℂ)
-  | fixed : OrbitType s
-  | reflectPair : OrbitType s
-  | fullFour : OrbitType s
+inductive OrbitType : ℂ → Type
+  | fixed (s : ℂ) : OrbitType s
+  | reflectPair (s : ℂ) : OrbitType s
+  | fullFour (s : ℂ) : OrbitType s
 
 /--
   軌道型分類（仮）
@@ -24,7 +24,7 @@ axiom classify_orbit :
     OrbitType s
 
 /--
-  fullFour は構造的に矛盾を持つ（核心命題）
+  fullFour は不可能（核心）
 -/
 axiom four_orbit_impossible :
   ∀ s : ℂ,
