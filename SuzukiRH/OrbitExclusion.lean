@@ -22,20 +22,21 @@ by
   intro s hs horb
   classical
 
-  by_contra hneq
-  -- hneq : ¬((1 - s) = s)
+  -- classical を使って分岐
+  by_cases h : (1 - s) = s
+  · exact h
+  ·
+    -- h : (1 - s) ≠ s
 
-  -- ★ここで必ず新しく作る（hneqは使わない）
-  have hne : s ≠ 1 - s := by
-    intro h
-    -- h : s = 1 - s
-    have : (1 - s) = s := by simpa using h.symm
-    exact hneq this
+    -- 必要な形に変換
+    have hne : s ≠ 1 - s := by
+      intro h'
+      have : (1 - s) = s := by simpa using h'.symm
+      exact h this
 
-  -- ★ここで hneq を絶対に使わない
-  have hbad : orbit s ⊆ {s, 1 - s} ∧ s ≠ 1 - s :=
-    ⟨horb, hne⟩
+    have hbad : orbit s ⊆ {s, 1 - s} ∧ s ≠ 1 - s :=
+      ⟨horb, hne⟩
 
-  exact (not_orbit_subset_reflect_pair s hs) hbad
+    exact (not_orbit_subset_reflect_pair s hs) hbad
 
 end SuzukiRH
