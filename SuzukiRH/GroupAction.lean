@@ -25,7 +25,11 @@ noncomputable def act : SymOp → ℂ → ℂ
 def IsFixed (op : SymOp) (s : ℂ) : Prop :=
   act op s = s
 
-/-- reflect の場合を展開 -/
+/-- 全操作で不動 -/
+def IsGlobalFixed (s : ℂ) : Prop :=
+  ∀ g : SymOp, act g s = s
+
+/-- reflect 固定 → 臨界線 -/
 theorem reflect_fixed_iff_critical :
   ∀ s : ℂ, IsFixed SymOp.reflectOp s → s.re = (1 : ℝ) / 2 :=
 by
@@ -35,6 +39,3 @@ by
   exact fixed_point_critical_line s h'
 
 end SuzukiRH
-/-- 全操作で固定される点 -/
-def IsGlobalFixed (s : ℂ) : Prop :=
-  ∀ g : SymOp, act g s = s
