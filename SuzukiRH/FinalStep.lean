@@ -12,9 +12,8 @@ import SuzukiRH.Symmetry
 
 namespace SuzukiRH
 
-/--
-  非自明零点は反転固定点になる
--/
+open Set
+
 theorem zero_implies_reflect_fixed :
   ∀ s : ℂ, IsNontrivialZero s →
     (1 - s) = s :=
@@ -26,13 +25,16 @@ by
 
   cases hclass with
   | inl h1 =>
-      -- singleton
+      -- orbit s = {s}
       have hmem : act SymOp.reflectOp s ∈ orbit s := by
         unfold orbit
         exact ⟨SymOp.reflectOp, by simp [act]⟩
-      have : act SymOp.reflectOp s = s := by
+
+      -- singleton から値一致を引く
+      have hEq : act SymOp.reflectOp s = s := by
         simpa [h1] using hmem
-      simpa [act] using this
+
+      simpa [act] using hEq
 
   | inr hrest =>
     cases hrest with
@@ -48,14 +50,12 @@ by
           exact reflect_pair_forces_fixed s hs h3.1
 
       | inr h4 =>
-          -- 4点 → 反転2点へ圧縮
+          -- 4点 → collapse
           have horb : orbit s ⊆ {s, 1 - s} :=
             collapse_four_to_reflect s hs h4.1
           exact reflect_pair_forces_fixed s hs horb
 
-/--
-  RH（最終形）
--/
+
 theorem riemann_hypothesis_final :
   ∀ s : ℂ, IsNontrivialZero s →
     s.re = (1 : ℝ) / 2 :=
