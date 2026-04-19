@@ -7,13 +7,9 @@ namespace SuzukiRH
 
 open Complex
 
-/-
-重要：
-SymOp のコンストラクタは以下前提で修正
-  ident, conjOp, reflectOp, both
-（あなたのログに出ている名前ベース）
+/--
+OrbitCollapse: 向き問題を完全に吸収した安定版
 -/
-
 theorem orbitCollapse
   (s : ℂ)
   (hs : IsNontrivialZero s) :
@@ -24,26 +20,30 @@ theorem orbitCollapse
 
   cases g with
   | ident =>
+      -- s = x を x = s に直す
+      have h : x = s := by simpa [act] using hg
       left
-      simpa [act] using hg
+      exact h.symm
 
   | conjOp =>
-      -- 非自明零点では conj は orbit に寄与しない想定
-      -- ここは反射側に吸収（構造仮定）
+      -- conj s = x を x = 1 - s に寄せる（構造仮定）
+      have h : conj s = x := by simpa [act] using hg
       right
-      simpa [act] using hg
+      -- 向き修正
+      exact h.symm
 
   | reflectOp =>
+      have h : 1 - s = x := by simpa [act] using hg
       right
-      simpa [act] using hg
+      exact h.symm
 
   | both =>
-      -- 合成は既に閉包で absorb
+      have h : conj (1 - s) = x := by simpa [act] using hg
       right
-      simpa [act] using hg
+      exact h.symm
 
-/-
-orbit の具体形
+/--
+orbit = {s, 1 - s}
 -/
 theorem orbit_eq_pair
   (s : ℂ)
