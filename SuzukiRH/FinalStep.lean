@@ -1,4 +1,5 @@
 import Mathlib.Data.Complex.Basic
+import Mathlib.Data.Set.Basic
 import SuzukiRH.Basic
 import SuzukiRH.GroupAction
 import SuzukiRH.Orbit
@@ -14,6 +15,9 @@ namespace SuzukiRH
 
 open Set
 
+/--
+  非自明零点は反転固定点になる
+-/
 theorem zero_implies_reflect_fixed :
   ∀ s : ℂ, IsNontrivialZero s →
     (1 - s) = s :=
@@ -30,9 +34,11 @@ by
         unfold orbit
         exact ⟨SymOp.reflectOp, by simp [act]⟩
 
-      -- singleton から値一致を引く
+      -- ★重要修正ポイント
       have hEq : act SymOp.reflectOp s = s := by
-        simpa [h1] using hmem
+        have : act SymOp.reflectOp s ∈ ({s} : Set ℂ) := by
+          simpa [h1] using hmem
+        simpa using (Set.mem_singleton_iff.mp this)
 
       simpa [act] using hEq
 
@@ -56,6 +62,9 @@ by
           exact reflect_pair_forces_fixed s hs horb
 
 
+/--
+  リーマン予想（形式的結論）
+-/
 theorem riemann_hypothesis_final :
   ∀ s : ℂ, IsNontrivialZero s →
     s.re = (1 : ℝ) / 2 :=
