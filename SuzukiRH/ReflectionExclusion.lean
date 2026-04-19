@@ -10,26 +10,31 @@ namespace SuzukiRH
 
 open Set
 
-/--
-  反転2点ケースは非自明零点では起きない
-  （起きるなら固定に潰れる）
--/
 axiom not_orbit_subset_reflect_pair :
   ∀ s : ℂ, IsNontrivialZero s →
     ¬ (orbit s ⊆ {s, 1 - s} ∧ s ≠ 1 - s)
 
-/--
-  反転型から固定を引き出す
--/
 theorem reflect_pair_forces_fixed :
   ∀ s : ℂ, IsNontrivialZero s →
     (orbit s ⊆ {s, 1 - s}) →
     (1 - s) = s :=
 by
   intro s hs horb
-  by_contra hneq
-  have hbad : orbit s ⊆ {s, 1 - s} ∧ s ≠ 1 - s :=
-    ⟨horb, hneq⟩
-  exact (not_orbit_subset_reflect_pair s hs) hbad
+  classical
+
+  by_cases h : (1 - s) = s
+  · exact h
+  ·
+    -- h : (1 - s) ≠ s
+
+    have hne : s ≠ 1 - s := by
+      intro h'
+      have : (1 - s) = s := by simpa using h'.symm
+      exact h this
+
+    have hbad : orbit s ⊆ {s, 1 - s} ∧ s ≠ 1 - s :=
+      ⟨horb, hne⟩
+
+    exact (not_orbit_subset_reflect_pair s hs) hbad.elim
 
 end SuzukiRH
