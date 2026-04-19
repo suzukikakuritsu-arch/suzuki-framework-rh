@@ -10,28 +10,34 @@ namespace SuzukiRH
 open Set
 
 /--
-  collapse は分類で処理する
+  軌道の候補集合（定義として固定）
+-/
+def orbitCandidates (s : ℂ) : Set ℂ :=
+  {s, 1 - s}
+
+/--
+  collapse（分類ベースの弱形）
 -/
 theorem collapse_four_to_reflect :
   ∀ s : ℂ, IsNontrivialZero s →
-    orbit s ⊆ {s, 1 - s} :=
+    orbit s ⊆ orbitCandidates s :=
 by
   intro s hs
 
-  -- 軌道分類
   have htype := classify_orbit s
 
   cases htype with
   | fixed =>
-      -- 1点軌道
-      simp [orbit]
+      intro x hx
+      -- singleton
+      simp [orbitCandidates]
 
   | reflectPair =>
+      intro x hx
       -- 2点構造
-      simp [orbit]
+      simp [orbitCandidates]
 
   | fullFour =>
-      -- 4点は不可能
       exfalso
       exact four_orbit_impossible s htype
 
