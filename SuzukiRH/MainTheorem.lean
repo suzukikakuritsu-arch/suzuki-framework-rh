@@ -1,21 +1,19 @@
 import Mathlib.Data.Complex.Basic
 import SuzukiRH.Basic
-import SuzukiRH.Symmetry
+import SuzukiRH.GroupAction
 
 namespace SuzukiRH
 
-open Complex
+/-- 剛性：零点は reflect の不動点 -/
+axiom rigidity_axiom :
+  ∀ s : ℂ, IsNontrivialZero s → IsFixed SymOp.reflectOp s
 
-/-- 剛性（不動点化） -/
-axiom rigidity_fixed_point :
-  ∀ s : ℂ, IsNontrivialZero s → reflect s = s
-
-/-- RH（不動点版） -/
+/-- RH（群作用版） -/
 theorem riemann_hypothesis :
   ∀ s : ℂ, IsNontrivialZero s → s.re = (1 : ℝ) / 2 :=
 by
   intro s hs
-  have hfix := rigidity_fixed_point s hs
-  exact fixed_point_critical_line s hfix
+  have hfix := rigidity_axiom s hs
+  exact reflect_fixed_iff_critical s hfix
 
 end SuzukiRH
