@@ -7,12 +7,12 @@ import SuzukiRH.OrbitClassification
 import SuzukiRH.Nontrivial
 import SuzukiRH.OrbitExclusion
 import SuzukiRH.ReflectionExclusion
+import SuzukiRH.OrbitCollapse
 import SuzukiRH.Symmetry
 
 namespace SuzukiRH
 
 /--
-  最終ステップ：
   非自明零点は反転固定点になる
 -/
 theorem zero_implies_reflect_fixed :
@@ -20,20 +20,18 @@ theorem zero_implies_reflect_fixed :
     (1 - s) = s :=
 by
   intro s hs
+  classical
 
-  -- ケース分解（分類）
   have hclass := orbit_classification s
 
   cases hclass with
   | inl h1 =>
       -- singleton
-      have : orbit s = {s} := h1
-      -- reflect も同一
       have hmem : act SymOp.reflectOp s ∈ orbit s := by
         unfold orbit
         exact ⟨SymOp.reflectOp, by simp [act]⟩
       have : act SymOp.reflectOp s = s := by
-        simpa [this] using hmem
+        simpa [h1] using hmem
       simpa [act] using this
 
   | inr hrest =>
@@ -50,11 +48,9 @@ by
           exact reflect_pair_forces_fixed s hs h3.1
 
       | inr h4 =>
-          -- 4点ケース → 今は排除公理に頼る or 簡約
-          -- 最短：ここも反転に押し込む
-          have horb : orbit s ⊆ {s, 1 - s} := by
-            -- 簡約公理として扱う（後で詰めるポイント）
-            admit
+          -- 4点 → 反転2点へ圧縮
+          have horb : orbit s ⊆ {s, 1 - s} :=
+            collapse_four_to_reflect s hs h4.1
           exact reflect_pair_forces_fixed s hs horb
 
 /--
