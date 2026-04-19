@@ -22,18 +22,17 @@ by
   intro s hs horb
   classical
 
-  -- 背理法を明示的に書く
-  by_contra h
+  by_contra hneq
+  -- hneq : ¬((1 - s) = s)
 
-  -- h : ¬((1 - s) = s)
-
-  -- これを s ≠ 1 - s に変換
+  -- ★ここで必ず新しく作る（hneqは使わない）
   have hne : s ≠ 1 - s := by
-    intro h'
-    have : (1 - s) = s := by
-      simpa using h'.symm
-    exact h this
+    intro h
+    -- h : s = 1 - s
+    have : (1 - s) = s := by simpa using h.symm
+    exact hneq this
 
+  -- ★ここで hneq を絶対に使わない
   have hbad : orbit s ⊆ {s, 1 - s} ∧ s ≠ 1 - s :=
     ⟨horb, hne⟩
 
