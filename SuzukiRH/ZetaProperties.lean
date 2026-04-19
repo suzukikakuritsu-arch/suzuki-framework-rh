@@ -3,6 +3,9 @@ import SuzukiRH.Basic
 
 namespace SuzukiRH
 
+/-- 共役（抽象化） -/
+axiom conj : ℂ → ℂ
+
 /-- 共役対称性 -/
 axiom zeta_conj :
   ∀ s : ℂ, zeta (conj s) = conj (zeta s)
