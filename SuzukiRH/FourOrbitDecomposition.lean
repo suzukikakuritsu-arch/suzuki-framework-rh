@@ -9,12 +9,12 @@ namespace SuzukiRH
 open Set
 
 /--
-  軌道の型
+  軌道の型（命題として扱う）
 -/
-inductive OrbitType : ℂ → Type
-  | fixed (s : ℂ) : OrbitType s
-  | reflectPair (s : ℂ) : OrbitType s
-  | fullFour (s : ℂ) : OrbitType s
+inductive OrbitType (s : ℂ) : Prop
+  | fixed : OrbitType s
+  | reflectPair : OrbitType s
+  | fullFour : OrbitType s
 
 /--
   軌道型分類（仮）
