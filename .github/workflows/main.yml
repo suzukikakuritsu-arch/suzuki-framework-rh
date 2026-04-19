@@ -1,0 +1,3 @@
+grep -r "axiom" .
+grep -r "sorry" .
+grep -r "admit" .
