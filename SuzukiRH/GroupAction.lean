@@ -35,3 +35,6 @@ by
   exact fixed_point_critical_line s h'
 
 end SuzukiRH
+/-- 全操作で固定される点 -/
+def IsGlobalFixed (s : ℂ) : Prop :=
+  ∀ g : SymOp, act g s = s
