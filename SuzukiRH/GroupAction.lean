@@ -5,35 +5,35 @@ import SuzukiRH.Symmetry
 
 namespace SuzukiRH
 
-/-
-  対称作用群（Z₂ × Z₂ 的構造）
--/
-
-/-- 対称操作の型 -/
+/-- 対称操作 -/
 inductive SymOp
-| id
+| ident
 | conjOp
 | reflectOp
 | both
 
 open SymOp
 
-/-- 作用の定義 -/
+/-- 作用 -/
 def act : SymOp → ℂ → ℂ
-| id, s => s
-| conjOp, s => conj s
-| reflectOp, s => 1 - s
-| both, s => conj (1 - s)
+| SymOp.ident, s => s
+| SymOp.conjOp, s => conj s
+| SymOp.reflectOp, s => 1 - s
+| SymOp.both, s => conj (1 - s)
 
-/-- 不動点集合 -/
+/-- 不動点 -/
 def IsFixed (op : SymOp) (s : ℂ) : Prop :=
   act op s = s
 
-/-- 反転の不動点は臨界線 -/
+/-- reflect の場合を展開 -/
 theorem reflect_fixed_iff_critical :
-  ∀ s : ℂ, IsFixed reflectOp s → s.re = (1 : ℝ) / 2 :=
+  ∀ s : ℂ, IsFixed SymOp.reflectOp s → s.re = (1 : ℝ) / 2 :=
 by
   intro s h
-  exact fixed_point_critical_line s h
+  -- h : act reflectOp s = s
+  -- 展開すると
+  have h' : (1 - s) = s := by
+    simpa [IsFixed, act] using h
+  exact fixed_point_critical_line s h'
 
 end SuzukiRH
