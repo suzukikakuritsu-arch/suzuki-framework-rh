@@ -10,6 +10,7 @@ import SuzukiRH.OrbitReduction
 import SuzukiRH.Nontrivial
 import SuzukiRH.OrbitExclusion
 import SuzukiRH.ReflectionExclusion
+import SuzukiRH.OrbitCollapse
 import SuzukiRH.Rigidity
 import SuzukiRH.RigidityRefine
 import SuzukiRH.FinalStep
