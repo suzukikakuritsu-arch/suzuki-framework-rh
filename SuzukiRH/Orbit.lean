@@ -34,6 +34,8 @@ by
   · intro hx
     have hx' : x = s := by simpa using hx
     subst hx'
-    exact mem_orbit_self s
+    -- ★ここが重要：直接作る（s を失わない）
+    unfold orbit
+    exact ⟨SymOp.ident, by simp [act]⟩
 
 end SuzukiRH
