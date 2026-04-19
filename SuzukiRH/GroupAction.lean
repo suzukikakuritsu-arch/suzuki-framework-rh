@@ -14,8 +14,8 @@ inductive SymOp
 
 open SymOp
 
-/-- 作用 -/
-def act : SymOp → ℂ → ℂ
+/-- 作用（非計算的） -/
+noncomputable def act : SymOp → ℂ → ℂ
 | SymOp.ident, s => s
 | SymOp.conjOp, s => conj s
 | SymOp.reflectOp, s => 1 - s
@@ -30,8 +30,6 @@ theorem reflect_fixed_iff_critical :
   ∀ s : ℂ, IsFixed SymOp.reflectOp s → s.re = (1 : ℝ) / 2 :=
 by
   intro s h
-  -- h : act reflectOp s = s
-  -- 展開すると
   have h' : (1 - s) = s := by
     simpa [IsFixed, act] using h
   exact fixed_point_critical_line s h'
