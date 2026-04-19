@@ -3,8 +3,6 @@ import SuzukiRH.Basic
 
 namespace SuzukiRH
 
-open Complex
-
 /-- χ関数（抽象） -/
 axiom chi : ℂ → ℂ
 
@@ -12,7 +10,7 @@ axiom chi : ℂ → ℂ
 axiom zeta_functional_equation :
   ∀ s : ℂ, zeta s = chi s * zeta (1 - s)
 
-/-- 零点の対称性（安全にaxiom化） -/
+/-- 零点の 1 - s 対称性 -/
 axiom zero_symmetry_1_minus :
   ∀ s : ℂ, zeta s = 0 → zeta (1 - s) = 0
 
