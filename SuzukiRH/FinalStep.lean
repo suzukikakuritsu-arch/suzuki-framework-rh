@@ -15,9 +15,6 @@ namespace SuzukiRH
 
 open Set
 
-/--
-  非自明零点は反転固定点になる
--/
 theorem zero_implies_reflect_fixed :
   ∀ s : ℂ, IsNontrivialZero s →
     (1 - s) = s :=
@@ -34,37 +31,34 @@ by
         unfold orbit
         exact ⟨SymOp.reflectOp, by simp [act]⟩
 
-      -- ★重要修正ポイント
-      have hEq : act SymOp.reflectOp s = s := by
-        have : act SymOp.reflectOp s ∈ ({s} : Set ℂ) := by
-          simpa [h1] using hmem
-        simpa using (Set.mem_singleton_iff.mp this)
+      -- ★完全に手で潰す（simpa禁止）
+      have hmem' : act SymOp.reflectOp s ∈ ({s} : Set ℂ) := by
+        rw [h1] at hmem
+        exact hmem
 
+      have hEq : act SymOp.reflectOp s = s :=
+        (Set.mem_singleton_iff.mp hmem')
+
+      -- reflect の定義展開
       simpa [act] using hEq
 
   | inr hrest =>
     cases hrest with
     | inl h2 =>
-        -- conj 2点 → 排除
         exfalso
         exact (not_orbit_subset_conj_pair s hs) h2.1
 
     | inr hrest2 =>
       cases hrest2 with
       | inl h3 =>
-          -- reflect 2点
           exact reflect_pair_forces_fixed s hs h3.1
 
       | inr h4 =>
-          -- 4点 → collapse
           have horb : orbit s ⊆ {s, 1 - s} :=
             collapse_four_to_reflect s hs h4.1
           exact reflect_pair_forces_fixed s hs horb
 
 
-/--
-  リーマン予想（形式的結論）
--/
 theorem riemann_hypothesis_final :
   ∀ s : ℂ, IsNontrivialZero s →
     s.re = (1 : ℝ) / 2 :=
